@@ -9,11 +9,19 @@ import hello.core.member.MemoryMemberRepository;
 
 public class OrderServiceImpl implements OrderService{
 
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
+    //private final MemberRepository memberRepository = new MemoryMemberRepository();
     //private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
     //private final DiscountPolicy discountPolicy = new RateDiscountPolicy();
     // ↓
-    private DiscountPolicy discountPolicy; // DIP 위반하지 않기 위해 이렇게 변경하면 구현체가 없어서 NullPointerException 발생
+    //private DiscountPolicy discountPolicy; // DIP 위반하지 않기 위해 이렇게 변경하면 구현체가 없어서 NullPointerException 발생
+    private final MemberRepository memberRepository;
+    private final DiscountPolicy discountPolicy;
+
+    // final은 생성자 할당이 필요함
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
